@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DGQuestionnaire</title>
+    <style>
+        :root {
+            --primary-green: #2E7D32; 
+            --bg-green-tint: #F1F8E9; 
+            --dark: #202124;
+            --safe: #34A853; 
+            --warning: #FBBC04; 
+            --danger: #EA4335;
+            --light-accent: #E8F5E9;
+        }
+
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg-green-tint); display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        .card { width: 90%; max-width: 400px; background: white; padding: 40px 25px; border-radius: 28px; box-shadow: 0 10px 30px rgba(46, 125, 50, 0.1); text-align: center; }
+        
+        .page { display: none; }
+        .page.active { display: block; }
+
+        h1 { font-size: 26px; color: var(--primary-green); margin: 0 0 10px; }
+        h2 { font-size: 18px; color: var(--dark); line-height: 1.5; margin-bottom: 30px; }
+
+        .btn { display: block; width: 100%; padding: 18px; margin: 12px 0; font-size: 18px; font-weight: bold; border: none; border-radius: 16px; cursor: pointer; transition: 0.2s; }
+        .btn-main { background: var(--primary-green); color: white; }
+        .btn-light { background: var(--light-accent); color: var(--primary-green); }
+
+        .meter-svg { width: 260px; height: 140px; margin-bottom: 10px; }
+        .needle { transform-origin: 130px 120px; transition: transform 1.5s cubic-bezier(0.17, 0.67, 0.83, 0.67); }
+
+        .score-box { font-size: 42px; font-weight: 900; margin: 0; line-height: 1; color: var(--primary-green); }
+        .score-label { font-size: 14px; text-transform: uppercase; letter-spacing: 1px; color: #777; margin-bottom: 15px; }
+        
+        .status { font-size: 22px; font-weight: 800; margin: 5px 0; }
+        .desc { font-size: 15px; color: #5F6368; line-height: 1.4; padding: 0 10px; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <div id="p1" class="page active">
+        <h1>DGQuestionnaire</h1>
+        <h2>Think you're getting digitally arrested?</h2>
+        <p style="font-size: 12px; color: #666;">*We do not store personal data.</p>
+        <button class="btn btn-main" onclick="go(2)">VERIFY NOW</button>
+        <button class="btn btn-light" onclick="go(8)">Learn More</button>
+    </div>
+
+    <div id="p2" class="page">
+        <h2>Did the caller claim to be from the government or legal authority?</h2>
+        <button class="btn btn-main" onclick="count(3)">Yes</button>
+        <button class="btn btn-light" onclick="go(3)">No</button>
+    </div>
+    <div id="p3" class="page">
+        <h2>Did they say you must act immediately?</h2>
+        <button class="btn btn-main" onclick="count(4)">Yes</button>
+        <button class="btn btn-light" onclick="go(4)">No</button>
+    </div>
+    <div id="p4" class="page">
+        <h2>Did they threaten arrest, legal action, or account freezing?</h2>
+        <button class="btn btn-main" onclick="count(5)">Yes</button>
+        <button class="btn btn-light" onclick="go(5)">No</button>
+    </div>
+    <div id="p5" class="page">
+        <h2>Did they ask for an OTP, bank details, or money?</h2>
+        <button class="btn btn-main" onclick="count(6)">Yes</button>
+        <button class="btn btn-light" onclick="go(6)">No</button>
+    </div>
+    <div id="p6" class="page">
+        <h2>Did they ask you not to disconnect or inform anyone?</h2>
+        <button class="btn btn-main" onclick="count(7)">Yes</button>
+        <button class="btn btn-light" onclick="go(7)">No</button>
+    </div>
+
+    <div id="p7" class="page">
+        <p class="score-label">Scam Probability</p>
+        <p id="percentage" class="score-box">0%</p>
+        
+        <svg class="meter-svg" viewBox="0 0 260 140">
+            <path d="M30,120 A100,100 0 0,1 230,120" fill="none" stroke="#eee" stroke-width="22" stroke-linecap="round"/>
+            <path d="M30,120 A100,100 0 0,1 96,34" fill="none" stroke="#34A853" stroke-width="22"/>
+            <path d="M96,34 A100,100 0 0,1 164,34" fill="none" stroke="#FBBC04" stroke-width="22"/>
+            <path d="M164,34 A100,100 0 0,1 230,120" fill="none" stroke="#EA4335" stroke-width="22"/>
+            <line id="needle" class="needle" x1="130" y1="120" x2="130" y2="30" stroke="#333" stroke-width="5" stroke-linecap="round" transform="rotate(-90)"/>
+            <circle cx="130" cy="120" r="8" fill="#333"/>
+        </svg>
+
+        <div id="status" class="status">Analysing...</div>
+        <p id="desc" class="desc"></p>
+        <button class="btn btn-main" onclick="location.reload()">Start Over</button>
+    </div>
+
+    <div id="p8" class="page">
+        <h1>Safety Guide</h1>
+        <div class="desc" style="text-align:left;">
+            <p><strong>What is Digital Arrest?</strong><br>
+            A digital arrest is a cyber scam where criminals pretend to be police officers or government officials and falsely accuse someone of being involved in a crime. They pressure the victim through phone or video calls and create fear by saying the person will be arrested.</p>
+            <p><strong>What Happens?</strong><br>
+            Scammers may show fake documents, uniforms, or IDs to look official. They often force the victim to stay on the call while they conduct a fake “investigation.” During this time, they demand money, bank details, or personal information to supposedly “clear the case.”</p>
+            <p><strong>How to Stay Safe:</strong><br>
+            • Real authorities do not arrest people through phone or video calls.<br>
+            • Never share personal or banking information with unknown callers.<br>
+            • End suspicious calls immediately.<br>
+            • Verify the claim with official authorities before taking any action.</p>
+        </div>
+        <button class="btn btn-main" onclick="go(1)">Back to Start</button>
+    </div>
+</div>
+
+<script>
+    let score = 0;
+    const totalQuestions = 5;
+
+    function go(n) {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.getElementById('p' + n).classList.add('active');
+        
+        // Results are now on page 7
+        if(n === 7) {
+            const needle = document.getElementById('needle');
+            const status = document.getElementById('status');
+            const desc = document.getElementById('desc');
+            const percText = document.getElementById('percentage');
+            
+            let percentage = Math.round((score / totalQuestions) * 100);
+            let rotation = -90 + (percentage * 1.8);
+            
+            percText.innerText = percentage + "%";
+            needle.style.transform = `rotate(${rotation}deg)`;
+
+            if(score >= 3) {
+                status.innerText = "HIGH RISK SCAM"; status.style.color = "#EA4335";
+                desc.innerHTML = "<b>Hang up immediately.</b> Report this caller to the National Cybercrime Portal (1930).";
+            } else if (score > 0) {
+                status.innerText = "SUSPICIOUS"; status.style.color = "#FBBC04";
+                desc.innerText = "This call follows known scam patterns. Do not provide any personal details.";
+            } else {
+                status.innerText = "LOW RISK"; status.style.color = "#34A853";
+                desc.innerText = "No common scam signals detected, but always remain vigilant.";
+            }
+        }
+    }
+
+    function count(n) { score++; go(n); }
+</script>
+</body>
+</html>
