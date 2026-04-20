@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>DGQuestionnaire | Official Scam Check</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-green: #2E7D32; 
+            --bg-green-tint: #F1F3F0; 
+            --dark: #202124;
+            --safe: #34A853; 
+            --warning: #FBBC04; 
+            --danger: #EA4335;
+        }
+
+        html, body { 
+            height: 100%; margin: 0; padding: 0; 
+            overflow: hidden !important; 
+            background: var(--bg-green-tint); 
+            display: flex; justify-content: center; align-items: center;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .card { 
+            width: 450px; 
+            max-height: 92vh; 
+            background: white; 
+            padding: 35px 40px; 
+            border-radius: 40px; 
+            box-shadow: 0 15px 45px rgba(0,0,0,0.08); 
+            text-align: center;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        .header-row {
+            display: flex; align-items: center; justify-content: space-between;
+            gap: 10px; margin-bottom: 12px;
+        }
+
+        .safety-strip { 
+            flex-grow: 1; background: #E8F0FE; color: #1967D2; 
+            font-size: 11px; font-weight: 700; padding: 10px; 
+            border-radius: 12px; white-space: nowrap;
+        }
+
+        .lang-toggle { 
+            font-size: 12px; font-weight: 700; color: var(--primary-green); 
+            cursor: pointer; border: 1.5px solid var(--primary-green); 
+            padding: 6px 12px; border-radius: 20px; background: white;
+        }
+
+        .logo-img { width: 60px; height: auto; margin: 5px auto; }
+        h1 { font-size: 28px; font-weight: 900; color: var(--primary-green); margin: 0; letter-spacing: -0.03em; }
+        h2 { font-size: 19px; font-weight: 800; color: var(--dark); line-height: 1.3; margin: 10px 0; }
+        .urgency-text { font-size: 13.5px; color: var(--danger); font-weight: 800; margin-bottom: 10px; }
+
+        .btn { 
+            display: block; width: 100%; height: 60px; 
+            font-size: 17.5px; font-weight: 900; 
+            border: none; border-radius: 22px; 
+            cursor: pointer; transition: all 0.3s ease;
+            font-family: inherit;
+        }
+        .btn:active { transform: scale(0.98); }
+        .btn-main { background: var(--primary-green); color: white; }
+        .btn-neutral { background: #F8F9FA; color: #5F6368; border: 1.5px solid #EDEDED; margin-top: 10px; }
+
+        .trust-line { font-size: 12px; color: #5F6368; font-weight: 700; margin: 12px 0; }
+        .footer-info { font-size: 10px; color: #9AA0A6; font-weight: 600; margin-top: 15px; }
+
+        .page { display: none; width: 100%; flex-direction: column; align-items: center; height: 100%; justify-content: space-between; }
+        .page.active { display: flex; }
+
+        .score-box { font-size: 68px; font-weight: 900; margin: 10px 0; transition: color 0.4s ease; }
+        .meter-svg { width: 100%; max-width: 280px; }
+        .needle { transform-origin: 130px 120px; transition: transform 1.5s cubic-bezier(0.19, 1, 0.22, 1); }
+
+        .guide-list { text-align: left; font-size: 14px; line-height: 1.6; color: #444; margin: 10px 0; padding-left: 20px; }
+        .guide-list li { margin-bottom: 8px; font-weight: 600; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <div class="header-row">
+        <div id="reassurance" class="safety-strip">You are safe. Authorities never ask for money or OTP.</div>
+        <div class="lang-toggle" onclick="toggleLang()" id="langBtn">हिन्दी</div>
+    </div>
+
+    <div id="p1" class="page active">
+        <div>
+            <img class="logo-img" src="https://raw.githubusercontent.com/aisha0816/dgquestionnaire/main/dgquestionnaire%20logo.png">
+            <h1>DGQuestionnaire</h1>
+            <h2 id="h_sub">Protect yourself from digital arrest scams.</h2>
+            <p class="urgency-text" id="h_urgent">Suspicious call? Hang up immediately before continuing.</p>
+        </div>
+        <div style="width: 100%;">
+            <button class="btn btn-main" onclick="go(2)" id="h_start">START SCAM CHECK</button>
+            <p class="trust-line" id="h_lock">No data, OTPs, or bank details collected.</p>
+            <button class="btn btn-neutral" onclick="go(8)" id="h_learn">How the scam works</button>
+        </div>
+        <p class="footer-info" id="h_footer">cybercrime.gov.in | Call 1930</p>
+    </div>
+
+    <div id="questionContainer" style="display:none; width: 100%; flex-direction: column; height: 100%; justify-content: space-between;">
+        <div style="display:flex; justify-content:space-between; width:100%; font-size:11px; font-weight:900; color:#80868B; margin-top:10px;">
+            <span onclick="prev()" style="cursor:pointer; color:var(--primary-green);" id="txt_nav_back">← BACK</span>
+            <span id="progress">QUESTION 1/5</span>
+        </div>
+        <div>
+            <h2 id="questionText">Question</h2>
+            <p style="font-size:13.5px; color:#5F6368; font-weight:600; margin-top: 10px;" id="whyText">Why we ask?</p>
+        </div>
+        <div style="width: 100%;">
+            <button class="btn btn-main" onclick="recordAnswer(true)" id="txt_yes">Yes, it happened.</button>
+            <button class="btn btn-neutral" onclick="recordAnswer(false)" id="txt_no">No.</button>
+        </div>
+    </div>
+
+    <div id="p7" class="page">
+        <div>
+            <p style="font-size:12px; font-weight:900; color:#80868B; letter-spacing: 1.5px;" id="res_label">RISK PROBABILITY</p>
+            <div id="percentage" class="score-box">0%</div>
+        </div>
+        <svg class="meter-svg" viewBox="0 0 260 140">
+            <path d="M30,120 A100,100 0 0,1 230,120" fill="none" stroke="#F1F3F4" stroke-width="20" stroke-linecap="round"/>
+            <path d="M30,120 A100,100 0 0,1 96,34" fill="none" stroke="#34A853" stroke-width="20"/>
+            <path d="M96,34 A100,100 0 0,1 164,34" fill="none" stroke="#FBBC04" stroke-width="20"/>
+            <path d="M164,34 A100,100 0 0,1 230,120" fill="none" stroke="#EA4335" stroke-width="20"/>
+            <line id="needle" class="needle" x1="130" y1="120" x2="130" y2="40" stroke="#202124" stroke-width="6" stroke-linecap="round" transform="rotate(-90)"/>
+            <circle cx="130" cy="120" r="10" fill="#202124"/>
+        </svg>
+        <div style="width: 100%;">
+            <h2 id="status" style="margin-bottom: 5px;">Analysing...</h2>
+            <p id="desc" style="font-size:14px; font-weight:600; line-height:1.5; color:#5F6368; margin-bottom: 20px;"></p>
+            <button class="btn" id="res_reset" onclick="location.reload()" style="color: white;">Reset Diagnostic</button>
+        </div>
+    </div>
+
+    <div id="p8" class="page">
+        <h2 id="guide_title">How the scam works</h2>
+        <ul class="guide-list" id="guide_body">
+            <li>Scammers impersonate officials and claim you are under “digital arrest."</li>
+            <li>They accuse you of serious crimes using professional fake documents.</li>
+            <li>Contact via WhatsApp or Skype is used to create urgent fear.</li>
+            <li>Pressure tactics are used to force quick payments or sensitive info.</li>
+            <li>Real law enforcement never conducts arrests via video calls.</li>
+        </ul>
+        <button class="btn btn-main" onclick="go(1)" id="guide_back">Back</button>
+    </div>
+</div>
+
+<script>
+    let responses = []; let currentPage = 1; let history = []; let isHindi = false;
+    const weights = [2, 5, 3, 5, 4]; 
+    const questions = [
+        { en: "Did the caller claim to be from Police, CBI, or Customs?", hi: "क्या कॉलर ने पुलिस, CBI या कस्टम विभाग से होने का दावा किया?", why_en: "Scammers use titles to create urgency.", why_hi: "स्कैमर्स दबाव बनाने के लिए पदों का उपयोग करते हैं।" },
+        { en: "Are they forcing you to stay on video call right now?", hi: "क्या वे आपको अभी वीडियो कॉल पर रहने के लिए मजबूर कर रहे हैं?", why_en: "Real police never conduct arrests via video.", why_hi: "असली पुलिस वीडियो कॉल के जरिए गिरफ्तार नहीं करती।" },
+        { en: "Did they threaten immediate arrest or account freezing?", hi: "क्या उन्होंने तुरंत गिरफ्तारी या अकाउंट फ्रीज करने की धमकी दी?", why_en: "Fear stops you from thinking clearly.", why_hi: "डर सोचने से रोकने के लिए किया जाता है।" },
+        { en: "Are they asking for money, OTP, or a 'clearance fee'?", hi: "क्या वे पैसे, OTP या 'क्लीयरेंस फीस' मांग रहे हैं?", why_en: "Authorities never ask for money on a call.", why_hi: "अधिकारी कभी भी फोन पर पैसे नहीं मांगते।" },
+        { en: "Did they tell you not to tell your family or friends?", hi: "क्या उन्होंने आपसे परिवार या दोस्तों को न बताने के लिए कहा?", why_en: "Scammers want to isolate you from help.", why_hi: "स्कैमर्स आपको मदद से अलग करना चाहते हैं।" }
+    ];
+
+    function toggleLang() {
+        isHindi = !isHindi;
+        document.getElementById('langBtn').innerText = isHindi ? "English" : "हिन्दी";
+        document.getElementById('reassurance').innerText = isHindi ? "आप सुरक्षित हैं। अधिकारी कभी पैसे या OTP नहीं मांगते।" : "You are safe. Authorities never ask for money or OTP.";
+        document.getElementById('h_sub').innerText = isHindi ? "डिजिटल अरेस्ट स्कैम से खुद को बचाएं।" : "Protect yourself from digital arrest scams.";
+        document.getElementById('h_urgent').innerText = isHindi ? "संदेह होने पर तुरंत फोन काट दें।" : "Suspicious call? Hang up immediately before continuing.";
+        document.getElementById('h_start').innerText = isHindi ? "जांच शुरू करें" : "START SCAM CHECK";
+        document.getElementById('h_lock').innerText = isHindi ? "कोई डेटा एकत्र नहीं किया जाता है।" : "No data, OTPs, or bank details collected.";
+        document.getElementById('h_learn').innerText = isHindi ? "स्कैम कैसे काम करता है" : "How the scam works";
+        document.getElementById('h_footer').innerText = isHindi ? "cybercrime.gov.in | कॉल 1930" : "cybercrime.gov.in | Call 1930";
+        document.getElementById('txt_nav_back').innerText = isHindi ? "← वापस" : "← BACK";
+        document.getElementById('txt_yes').innerText = isHindi ? "हाँ, ऐसा हुआ।" : "Yes, it happened.";
+        document.getElementById('txt_no').innerText = isHindi ? "नहीं।" : "No.";
+        document.getElementById('guide_title').innerText = isHindi ? "स्कैम कैसे काम करता है" : "How the scam works";
+        document.getElementById('guide_back').innerText = isHindi ? "पीछे" : "Back";
+        document.getElementById('res_label').innerText = isHindi ? "जोखिम की संभावना" : "RISK PROBABILITY";
+        
+        const guideHtmlHindi = `<li>स्कैमर्स अधिकारियों का रूप धरते हैं और दावा करते हैं कि आप 'डिजिटल अरेस्ट' के तहत हैं।</li><li>वे फर्जी दस्तावेजों का उपयोग करके आप पर गंभीर अपराधों का आरोप लगाते हैं।</li><li>डर पैदा करने के लिए व्हाट्सएप या स्काइप वीडियो कॉल का उपयोग किया जाता है।</li><li>तुरंत भुगतान या व्यक्तिगत जानकारी के लिए दबाव डाला जाता है।</li><li>पैसे बैंक ट्रांसफर या क्रिप्टोकरेंसी के माध्यम से मांगे जाते हैं।</li><li>चेकर टूल संभावित स्कैम की तुरंत पहचान करने में मदद करता है।</li>`;
+        const guideHtmlEnglish = `<li>Scammers impersonate officials and claim you are under “digital arrest.\"</li><li>They accuse you of serious crimes using professional fake documents.</li><li>Contact via WhatsApp or Skype is used to create urgent fear.</li><li>Pressure tactics are used to force quick payments or sensitive info.</li><li>Money is demanded through bank transfers or cryptocurrency.</li><li>A checker tool identifies potential scams quickly.</li>`;
+        document.getElementById('guide_body').innerHTML = isHindi ? guideHtmlHindi : guideHtmlEnglish;
+
+        if(currentPage >= 2 && currentPage <= 6) updateQuestion(currentPage - 2);
+        if(currentPage === 7) calcResult();
+    }
+
+    function go(n) {
+        history.push(currentPage); currentPage = n;
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        const qCont = document.getElementById('questionContainer');
+        if (n >= 2 && n <= 6) { qCont.style.display = "flex"; updateQuestion(n - 2); } 
+        else { qCont.style.display = "none"; document.getElementById('p' + n)?.classList.add('active'); if(n === 7) setTimeout(calcResult, 150); }
+    }
+
+    function updateQuestion(idx) {
+        document.getElementById('progress').innerText = isHindi ? "प्रश्न " + (idx+1) + " / 5" : "QUESTION " + (idx+1) + " / 5";
+        document.getElementById('questionText').innerText = isHindi ? questions[idx].hi : questions[idx].en;
+        document.getElementById('whyText').innerText = isHindi ? questions[idx].why_hi : questions[idx].why_en;
+    }
+
+    function recordAnswer(val) { responses[currentPage - 2] = val; go(currentPage + 1); }
+    function prev() { if(history.length > 0) { currentPage = history.pop(); responses.pop(); go(currentPage); history.pop(); } }
+
+    function calcResult() {
+        let weightedScore = 0;
+        responses.forEach((val, i) => { if(val) weightedScore += weights[i]; });
+        let percentage = Math.round((weightedScore / 19) * 100);
+        
+        const scoreBox = document.getElementById('percentage');
+        const status = document.getElementById('status');
+        const desc = document.getElementById('desc');
+        const btn = document.getElementById('res_reset');
+        const needle = document.getElementById('needle');
+
+        scoreBox.innerText = percentage + "%";
+        needle.style.transform = `rotate(${-90 + (percentage * 1.8)}deg)`;
+
+        if (percentage <= 40) {
+            status.innerText = isHindi ? "कम जोखिम" : "LOW RISK";
+            scoreBox.style.color = status.style.color = btn.style.backgroundColor = "var(--safe)";
+            desc.innerText = isHindi ? "कोई स्कैम संकेत नहीं मिला। सावधान रहें।" : "No scam patterns detected. Stay vigilant.";
+        } else if (percentage <= 70) {
+            status.innerText = isHindi ? "संदिग्ध" : "SUSPICIOUS";
+            scoreBox.style.color = status.style.color = btn.style.backgroundColor = "var(--warning)";
+            desc.innerText = isHindi ? "सावधान रहें। यह धोखाधड़ी के तरीकों से मेल खाता है।" : "Be careful. This matches common scam tactics.";
+        } else {
+            status.innerText = isHindi ? "उच्च जोखिम स्कैम" : "HIGH RISK SCAM";
+            scoreBox.style.color = status.style.color = btn.style.backgroundColor = "var(--danger)";
+            desc.innerText = isHindi ? "अभी कॉल काट दें। पुलिस कभी फोन पर गिरफ्तार नहीं करती।" : "Hang up now. Real police don't call to arrest. Report to 1930.";
+        }
+        btn.innerText = isHindi ? "फिर से जांचें" : "Reset Diagnostic";
+    }
+</script>
+</body>
+</html>
